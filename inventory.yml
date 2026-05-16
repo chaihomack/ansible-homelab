@@ -10,6 +10,11 @@ main_app_servers:
     # second.app.tea:
      # ansible_host: 192.168.0.116
 
+database_servers:
+  hosts: 
+    db.tea:
+      ansible_host: 192.168.0.108
+        
 monitoring_servers:
   hosts:
     zabbix.tea:
@@ -19,3 +24,7 @@ hosts_with_zabbix_agents:
   children:
     gateway:
     main_app_server:
+
+all:
+  vars:
+    app_name: 'teashop'

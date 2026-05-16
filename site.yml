@@ -10,12 +10,25 @@
 #  roles:
 #    - geerlingguy.docker
 
-- name: Deploy Nginx Services
-  hosts: main_app_servers, gateway
-  roles:
-    - nginx_docker
+#- name: Deploy Nginx Services
+#  hosts: main_app_servers, gateway
+#  roles:
+#    - nginx_docker
 
 #- name: Install Zabbix Agents
 #  hosts: hosts_with_zabbix_agents
 #  roles:
 #    - zabbix_agent2
+
+#- name: install postgresql
+#  hosts: database_servers
+#  become: yes
+#  roles:
+#    - geerlingguy.postgresql
+
+- name: Set up teashop Postgresql Database
+  hosts: database_servers
+  become: yes
+  become_user: postgres
+  roles:
+    - teashop_database

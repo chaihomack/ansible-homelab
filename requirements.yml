@@ -1,6 +1,8 @@
 collections:
   - name: community.docker
   - name: community.general
+  - name: community.postgresql
 
 roles:
   - src: geerlingguy.docker
+  - src: geerlingguy.postgresql
