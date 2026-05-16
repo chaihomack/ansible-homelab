@@ -2,3 +2,4 @@
 .git
 ssh
 roles/geerlingguy.docker
+roles/geerlingguy.postgresql
