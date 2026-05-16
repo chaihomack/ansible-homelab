@@ -1,0 +1,45 @@
+---
+- name: VALIDATE NGINX CONFIGURATION
+  ansible.builtin.import_tasks: validate_cfg_in_local.yml
+
+- name: clear prev cfg files if exists   # ansible might not display err if file doesnt exists
+  become: yes
+  ansible.builtin.file:
+    path: "{{ mn_cfg_base_dir }}"
+    state: absent
+
+- name: Create directories with everything from templates
+  ansible.builtin.file:
+    path: '{{ mn_cfg_base_dir }}/{{ item.path }}'
+    state: directory
+    mode: '{{ item.mode }}'
+  with_community.general.filetree: '{{ templates_dir }}'
+  when: item.state == 'directory'
+
+- name: Template file with everything from templates/nginx
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: '{{ mn_nginx_cfg }}/{{ item.path | splitext | first }}' # also removes .j2
+    mode: '{{ item.mode }}'
+  with_community.general.filetree: '{{ templates_dir }}/nginx'
+  when: item.state == 'file'
+
+- name: Copying web_app to host if exists
+  ansible.builtin.copy:
+    src: '{{ templates_dir }}/web_app'
+    dest: '{{ mn_cfg_base_dir }}'   # remember, we have mn_web_app dir var
+  when: has_web_app == true
+
+- name: Ensure Nginx container is running
+  become: yes
+  community.docker.docker_container:
+    name: "{{ nginx_container_name }}"
+    image: "nginx:latest"
+    state: started
+    restart_policy: always
+    volumes:
+      - "{{ mn_nginx_cfg }}/conf.d:/etc/nginx/conf.d:ro"
+      - "{{ mn_nginx_cfg }}/sites-enabled:/etc/nginx/sites-enabled:ro"
+      - "{{ (mn_web_app ~ ':/var/www/html/:ro') if has_web_app == true else ('/dev/null:/dev/null:ro') }}"
+    published_ports:
+      - "80:80"

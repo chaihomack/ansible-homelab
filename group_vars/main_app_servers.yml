@@ -1,0 +1,4 @@
+---
+nginx_container_name: main_app_instance
+templates_subdir: main_app_servers
+has_web_app: true

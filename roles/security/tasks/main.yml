@@ -1,0 +1,36 @@
+---
+- name: Install UFW and Fail2Ban
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ufw
+      - fail2ban
+    state: present
+
+- name: Allow SSH
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: "{{ security_ssh_port | string }}"
+    proto: tcp
+
+- name: Allow other ports
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: "{{ item | string }}"
+    proto: tcp
+  loop: "{{ security_allowed_ports }}"
+
+- name: Enable UFW
+  become: true
+  community.general.ufw:
+    state: enabled
+    policy: deny
+
+- name: Ensure Fail2Ban is running
+  become: true
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+    enabled: true

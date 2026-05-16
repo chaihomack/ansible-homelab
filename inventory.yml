@@ -1,0 +1,21 @@
+gateway:
+  hosts:
+    gateway.tea:
+      ansible_host: 192.168.0.123
+
+main_app_servers:
+  hosts:
+    first.app.tea:
+      ansible_host: 192.168.0.122
+    # second.app.tea:
+     # ansible_host: 192.168.0.116
+
+monitoring_servers:
+  hosts:
+    zabbix.tea:
+      ansible_host: 192.168.0.112
+
+hosts_with_zabbix_agents:
+  children:
+    gateway:
+    main_app_server:

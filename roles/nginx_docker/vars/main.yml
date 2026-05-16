@@ -1,0 +1,15 @@
+---
+# mn - managed node
+# cn - control node
+# for now all these directories will be mounted in docker containers
+
+mn_cfg_base_dir: /home/ansible/hostcfg
+
+templates_dir: '{{ role_path }}/templates/{{ templates_subdir }}'
+
+mn_nginx_cfg: '{{ mn_cfg_base_dir }}/nginx'
+mn_web_app: '{{ mn_cfg_base_dir }}/web_app'
+#nginx_cfg_templates_path: '{{ templates_dir }}/{{ nginx_config_subdir }}'
+#web_app_templates_path: '{{ templates_dir }}/{{ webapp_config_subdir }}'
+
+#mn_web_app_path: "{{ mn_cfg_base_dir }}/web_app"
