@@ -1,12 +1,12 @@
 gateway:
   hosts:
     gateway.tea:
-      ansible_host: 192.168.0.123
+      ansible_host: 192.168.0.105
 
 main_app_servers:
   hosts:
     first.app.tea:
-      ansible_host: 192.168.0.122
+      ansible_host: 192.168.0.104
     # second.app.tea:
      # ansible_host: 192.168.0.116
 

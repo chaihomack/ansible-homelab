@@ -42,4 +42,4 @@
       - "{{ mn_nginx_cfg }}/sites-enabled:/etc/nginx/sites-enabled:ro"
       - "{{ (mn_web_app ~ ':/var/www/html/:ro') if has_web_app == true else ('/dev/null:/dev/null:ro') }}"
     published_ports:
-      - "80:80"
+      - "{{ http_listen_port }}:80"
