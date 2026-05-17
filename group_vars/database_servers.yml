@@ -1,0 +1,2 @@
+---
+DBsuperuser_pass: "{{ lookup('file', 'secrets/DBsuperuser_pass') }}"
