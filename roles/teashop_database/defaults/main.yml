@@ -1,3 +1,3 @@
 ---
 app_db_set_up_script_path: '{{ role_path }}/files/set_up_database.sql'
-superuser_name: SuperUser 
+superuser_role: app_admins

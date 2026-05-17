@@ -41,7 +41,7 @@
     community.postgresql.postgresql_query:
       login_db: "{{ app_name }}"
       query: > 
-        CREATE ROLE {{ superuser_name }} WITH SUPERUSER LOGIN PASSWORD '{{ DBsuperuser_pass }}';
-        ALTER DATABASE {{ app_name }} OWNER TO {{ superuser_name }};
+        CREATE ROLE {{ superuser_role }} WITH SUPERUSER LOGIN PASSWORD '{{ DBsuperuser_pass }}';
+        ALTER DATABASE {{ app_name }} OWNER TO {{ superuser_role }};
 
   when: app_db_present is skipped
