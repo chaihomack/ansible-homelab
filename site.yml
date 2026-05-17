@@ -31,7 +31,7 @@
   become: yes
   become_user: postgres
   roles:
-    - teashop_database
+    - app_database
 
 - name: Set up security rules
   hosts: database_servers

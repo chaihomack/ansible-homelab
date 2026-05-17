@@ -1,14 +1,11 @@
 ---
-
 - name: (VALIDATING /templates/ LOCALLY) Create temporary build directory for config validation
-  delegate_to: localhost
   ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tmp_dir
 
 - name: (VALIDATING /templates/ LOCALLY) Create dirs with everything from templates
-  delegate_to: localhost
   ansible.builtin.file:
     path: '{{ tmp_dir.path }}/{{ item.path }}'
     state: directory
@@ -17,7 +14,6 @@
   when: item.state == 'directory'
 
 - name: (VALIDATING /templates/ LOCALLY) templating cfgs to testing dir
-  delegate_to: localhost
   ansible.builtin.template:
     src: '{{ item.src }}'
     dest: '{{ tmp_dir.path }}/{{ item.path | splitext | first }}' # also removes .j2
@@ -26,7 +22,6 @@
   when: item.state == 'file'
 
 - name: (VALIDATING /templates/ LOCALLY) Validate nginx conf locally
-  delegate_to: localhost
   ansible.builtin.command:
     cmd: >
       docker run --rm -t

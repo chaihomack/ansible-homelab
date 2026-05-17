@@ -1,9 +1,9 @@
 ---
 - name: VALIDATE NGINX CONFIGURATION
-  ansible.builtin.import_tasks: validate_cfg_in_local.yml
+  delegate_to: localhost
+  ansible.builtin.import_tasks: '{{ role_path }}/tests/validate_cfg_in_local.yml'
 
 - name: clear prev cfg files if exists   # ansible might not display err if file doesnt exists
-  become: yes
   ansible.builtin.file:
     path: "{{ mn_cfg_base_dir }}"
     state: absent
@@ -31,7 +31,6 @@
   when: has_web_app == true
 
 - name: Ensure Nginx container is running
-  become: yes
   community.docker.docker_container:
     name: "{{ nginx_container_name }}"
     image: "nginx:latest"

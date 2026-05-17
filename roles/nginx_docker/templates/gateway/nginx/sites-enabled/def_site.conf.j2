@@ -1,6 +1,7 @@
 upstream app_servers {
     least_conn;
     server {{ hostvars['first.app.tea']['ansible_host'] }}:{{ hostvars[groups['main_app_servers'][0]]['http_listen_port'] }};
+	server {{ hostvars['second.app.tea']['ansible_host'] }}:{{ hostvars[groups['main_app_servers'][0]]['http_listen_port'] }};
 }
 
 server {

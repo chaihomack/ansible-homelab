@@ -1,6 +1,5 @@
 ---
 - name: Update apt cache and upgrade packages
-  become: true
   ansible.builtin.apt:
     update_cache: true
     upgrade: dist
@@ -13,8 +12,8 @@
   register: reboot_required_file
 
 - name: finding out if reboot is required 
-  ansible.builtin.debug:
-    msg: "!!! REBOOT IS REQUIRED, DO IT WITH YOURSELF !!!"
+  ansible.builtin.reboot:
+    msg: "!!! rebooting !!!"
   when: reboot_required_file.stat.exists
 
 - name: Cleanup Docker (prune everything)
@@ -24,10 +23,9 @@
     networks: true
     volumes: true
     builder_cache: true
-  when: inventory_hostname in groups['gateway'] or inventory_hostname in groups['main_app_server']
+  when: host_has_docker
 
 - name: Install common packages
-  become: true
   ansible.builtin.apt:
     name: "{{ common_packages }}"
     state: present

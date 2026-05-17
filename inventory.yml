@@ -1,19 +1,20 @@
+---
 gateway:
   hosts:
     gateway.tea:
-      ansible_host: 192.168.0.105
+      ansible_host: 192.168.0.2
 
 main_app_servers:
   hosts:
     first.app.tea:
-      ansible_host: 192.168.0.104
-    # second.app.tea:
-     # ansible_host: 192.168.0.116
+      ansible_host: 192.168.0.3
+    second.app.tea:
+      ansible_host: 192.168.0.4
 
 database_servers:
   hosts: 
     db.tea:
-      ansible_host: 192.168.0.108
+      ansible_host: 192.168.0.5
 
 hosts_with_nginx_docker:
   children:
@@ -28,4 +29,5 @@ hosts_with_docker:
 hosts_with_zabbix_agents:
   children:
     gateway:
-    main_app_server:
+    main_app_servers:
+    database_servers:

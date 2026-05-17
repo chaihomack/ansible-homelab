@@ -1,0 +1,14 @@
+---
+- name: deploy gateway
+  hosts: gateway
+  roles:
+    - common_server_prep
+    - geerlingguy.docker
+    - zabbix_agent2
+    - security
+
+- name: deploy nginx conf
+  hosts: gateway
+  become: no
+  roles:
+    - nginx_docker

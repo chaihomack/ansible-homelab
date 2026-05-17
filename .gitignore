@@ -3,4 +3,5 @@
 secrets
 roles/geerlingguy.docker
 roles/geerlingguy.postgresql
-site.retry
+*.retry
+.vault_pass

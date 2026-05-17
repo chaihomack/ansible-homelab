@@ -3,3 +3,5 @@ nginx_container_name: nginx_rev_proxy
 templates_subdir: gateway
 has_web_app: false
 http_listen_port: 80
+
+host_has_docker: true

@@ -5,3 +5,5 @@ common_packages:
   - htop
   - git
   - net-tools
+
+host_has_docker: false

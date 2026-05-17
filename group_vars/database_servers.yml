@@ -1,2 +1,2 @@
 ---
-DBsuperuser_pass: "{{ lookup('file', 'secrets/DBsuperuser_pass') }}"
+DBsuperuser_pass: "{{ lookup('file', lookup('env', 'PWD') ~ '/secrets/DBsuperuser_pass') }}"

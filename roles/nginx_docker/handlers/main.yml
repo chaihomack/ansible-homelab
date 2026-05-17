@@ -1,7 +1,0 @@
----
-- name: Reload Nginx
-  become: yes
-  community.docker.docker_container:
-    name: "{{ nginx_container_name }}"
-    state: started
-    restart: yes
