@@ -1,3 +1,5 @@
 ---
 http_listen_port: 80
 https_listen_port: 443
+
+has_web_app: false

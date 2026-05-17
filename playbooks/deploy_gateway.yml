@@ -6,7 +6,7 @@
     - geerlingguy.docker
     - zabbix_agent2
     - security
-
+    - DHCP_srv
 - name: deploy nginx conf
   hosts: gateway
   become: no

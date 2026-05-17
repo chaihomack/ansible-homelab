@@ -1,7 +1,25 @@
 ---
 nginx_container_name: nginx_rev_proxy
 templates_subdir: gateway
-has_web_app: false
 http_listen_port: 80
 
 host_has_docker: true
+
+allowed_tcp_ports:
+  - "22"
+  - "80"
+  - "443"
+
+allowed_udp_ports:
+  - "68"
+  - "67"
+
+
+# DHCP CFG
+network_interface: 'enp0s3'
+ip_range_start: '192.168.56.100'
+ip_range_end: '192.168.56.200'
+ip_rent_hours: 24h
+netmask: '255.255.255.0'
+gateway: '{{ ansible_host }}'
+dns_servers: "{{ ansible_host }}"

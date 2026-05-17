@@ -1,9 +1,11 @@
 ---
-allowed_ports:
+allowed_tcp_ports:
   - "22"
   - "80"
   - "443"
 
+allowed_udp_ports:
+  - "68"
 
 sshd_conf_general: |
   PermitRootLogin yes
