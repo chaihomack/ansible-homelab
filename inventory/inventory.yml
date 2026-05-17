@@ -1,0 +1,36 @@
+gateway:
+  hosts:
+    gateway.tea:
+      ansible_host: 192.168.0.105
+
+main_app_servers:
+  hosts:
+    first.app.tea:
+      ansible_host: 192.168.0.104
+    # second.app.tea:
+     # ansible_host: 192.168.0.116
+
+database_servers:
+  hosts: 
+    db.tea:
+      ansible_host: 192.168.0.108
+
+hosts_with_nginx_docker:
+  children:
+    gateway:
+    main_app_servers:
+
+hosts_with_docker:
+  children:
+    gateway:
+    main_app_servers:
+
+hosts_with_zabbix_agents:
+  children:
+    gateway:
+    main_app_server:
+
+all:
+  vars:
+    app_name: 'teashop'
+    ansible_become_password: "{{ lookup('file', 'secrets/pass4sudo') }}"

@@ -1,0 +1,5 @@
+.pyenv
+.git
+secrets
+roles/geerlingguy.docker
+roles/geerlingguy.postgresql

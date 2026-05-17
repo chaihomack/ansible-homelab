@@ -1,0 +1,23 @@
+---
+- name: Create sshd_conf block with general conf
+  ansible.builtin.blockinfile:
+    create: yes
+    path: /etc/ssh/sshd_config.d/general.conf
+    append_newline: true
+    prepend_newline: true
+    marker: "# {mark} GENERAL CONFIG"
+    block: '{{ sshd_conf_general }}'
+    validate: /usr/sbin/sshd -T -f %s
+
+- name: Create sshd_conf block with conf for specific users
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/user_{{item.username}}.conf
+    create: yes
+    append_newline: true
+    prepend_newline: true
+    marker: "# {mark} CONFIG FOR '{{ item.username }}' USER"
+    block: |
+      Match User {{ item.username }}
+      {{ item.sshd_conf_block }}
+    validate: /usr/sbin/sshd -T -f %s
+  loop: '{{ users }}'

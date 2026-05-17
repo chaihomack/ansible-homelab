@@ -1,0 +1,16 @@
+---
+allowed_ports:
+  - "22"
+  - "80"
+  - "443"
+
+
+sshd_conf_general: |
+  PermitEmptyPasswords no
+
+
+users:
+  - username: ansible
+    sshd_conf_block: |
+      PubkeyAuthentication yes
+      PasswordAuthentication no
