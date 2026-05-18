@@ -1,0 +1,9 @@
+---
+- name: Add apt proxy to /etc/apt/apt.conf.d/99proxy
+  ansible.builtin.blockinfile:
+    path: /etc/apt/apt.conf.d/99proxy
+    owner: root
+    mode: '0600'
+    create: true
+    block: |
+      Acquire::http { Proxy "http://{{ hostvars[groups['apt_cacher'][0]]['ansible_host'] }}:3142"; }

@@ -1,14 +1,18 @@
 ---
-- name: install common packets, postgresql, set up security
+- name: Install common packets, postgresql, set up security
   hosts: database_servers
   roles:
+    - apt_proxy
+
     - common_server_prep
     - geerlingguy.postgresql
+
     - security
     - zabbix_agent2
 
-- name: deploy database
+- name: Deploy database
   hosts: database_servers
+  become: true
   become_user: postgres
   roles:
     - app_database

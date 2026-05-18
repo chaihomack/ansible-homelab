@@ -9,6 +9,7 @@ allowed_tcp_ports:
   - "22"
   - "80"
   - "443"
+  - "3142"
 
 allowed_udp_ports:
   - "68"
@@ -23,3 +24,6 @@ ip_rent_hours: 24h
 netmask: '255.255.255.0'
 gateway: '{{ ansible_host }}'
 dns_servers: "{{ ansible_host }}"
+
+# apt cacher
+apt_cacher_allow_http_tunnels: true

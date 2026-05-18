@@ -7,14 +7,18 @@ gateway:
 main_app_servers:
   hosts:
     first.app.tea:
-      ansible_host: 192.168.56.21
+      ansible_host: 192.168.56.143
     second.app.tea:
-      ansible_host: 192.168.56.67
+      ansible_host: 192.168.56.200
 
 database_servers:
   hosts:
     db.tea:
       ansible_host: 192.168.0.69
+
+apt_cacher:
+  children:
+    gateway:
 
 hosts_with_nginx_docker:
   children:

@@ -1,14 +1,13 @@
 ---
-- name: deploy_apps
+- name: Deploy_apps
   hosts: main_app_servers
   roles:
+    - apt_proxy
+
     - common_server_prep
-    - geerlingguy.docker
-    - zabbix_agent2
     - security
 
-- name: deploy nginx conf
-  hosts: main_app_servers
-  become: no
-  roles:
+    - geerlingguy.docker
+
+    - zabbix_agent2
     - nginx_docker
