@@ -1,8 +1,0 @@
----
-network_interface: '{{ network_interface }}'
-ip_range_start: '{{ ip_range_start }}'
-ip_range_end: '{{ ip_range_end }}'
-ip_rent_hours: 12h
-netmask: '{{ netmask }}'
-gateway: '{{ gateway }}'
-dns_servers: "1.1.1.1,8.8.8.8"

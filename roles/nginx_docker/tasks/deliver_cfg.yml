@@ -1,0 +1,66 @@
+---
+- ansible.builtin.find: # save for proper "changed"
+    path: "{{ nginx_docker_cfg_base_dir }}"
+    file_type: any
+    recurse: true
+    get_checksum: true
+  register: nginx_docker_cfg_dir_before
+
+- name: Update config files and (if host has) web files
+  block:
+    - name: Del prev files
+      ansible.builtin.file:
+        path: "{{ nginx_docker_cfg_base_dir }}"
+        state: absent
+      changed_when: false
+
+    - name: Dreate dir structure
+      ansible.builtin.file:
+        path: "{{ nginx_docker_cfg_base_dir }}/{{ item.path }}"
+        state: directory
+        mode: "{{ item.mode }}"
+      with_community.general.filetree: "{{ nginx_docker_templates_dir }}"
+      when: item.state == 'directory'
+      changed_when: false
+
+    - name: Deliver files with everything from templates/nginx
+      ansible.builtin.template:
+        src: "{{ item.src }}"
+        dest: "{{ nginx_docker_nginx_cfg }}/{{ item.path | splitext | first }}" # removes last .ext
+        mode: "{{ item.mode }}"
+      with_community.general.filetree: "{{ nginx_docker_templates_dir }}/nginx"
+      when: item.state == 'file'
+      changed_when: false
+
+    - name: Copying web_app to host if exists
+      ansible.builtin.copy:
+        src: "{{ nginx_docker_templates_dir }}/web_app"
+        dest: "{{ nginx_docker_cfg_base_dir }}"
+        owner: ansible
+        group: ansible
+        mode: "0644"
+      when: nginx_docker_has_web_app
+      changed_when: false
+
+- ansible.builtin.find:
+    file_type: any
+    path: "{{ nginx_docker_cfg_base_dir }}"
+    recurse: true
+    get_checksum: true
+  register: nginx_docker_cfg_dir_after
+
+- ansible.builtin.set_fact: # set 'changed'
+    nginx_docker_cfg_has_beed_changed: >-
+      {% macro paths_and_checksums(find_retval) -%}
+        {%- for item in find_retval.files -%}
+          {%- set checksum = item.checksum | default('no_checksum') -%}
+          {{ item.path }}:{{ checksum }}{% if not loop.last %},{% endif -%}
+        {%- endfor -%}
+      {%- endmacro -%}
+      {%- set cfg_dir_before = (paths_and_checksums(nginx_docker_cfg_dir_before) | split(',')) -%}
+      {%- set cfg_dir_after = (paths_and_checksums(nginx_docker_cfg_dir_after) | split(',')) -%}
+      {{ ([cfg_dir_before, cfg_dir_after]
+      | community.general.lists_symmetric_difference(flatten=true)
+      | length) > 0 }}
+
+  changed_when: nginx_docker_cfg_has_beed_changed

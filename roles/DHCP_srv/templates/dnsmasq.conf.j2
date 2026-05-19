@@ -1,8 +1,0 @@
-port=0
-interface={{ network_interface }}
-dhcp-range={{ ip_range_start }},{{ ip_range_end }},{{ netmask }},{{ ip_rent_hours }}
-dhcp-authoritative
-log-queries
-log-dhcp
-dhcp-option=option:router,{{ ansible_host }}
-dhcp-option=option:dns-server,{{ dns_servers }}

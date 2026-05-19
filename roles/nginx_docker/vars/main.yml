@@ -1,9 +1,7 @@
 ---
-# mn - managed node
 
-mn_cfg_base_dir: /home/ansible/hostcfg
+nginx_docker_cfg_base_dir: /home/ansible/hostcfg
+nginx_docker_nginx_cfg: "{{ nginx_docker_cfg_base_dir }}/nginx"
+nginx_docker_web_app: "{{ nginx_docker_cfg_base_dir }}/web_app"
 
-templates_dir: '{{ role_path }}/templates/{{ templates_subdir }}'
-
-mn_nginx_cfg: '{{ mn_cfg_base_dir }}/nginx'
-mn_web_app: '{{ mn_cfg_base_dir }}/web_app'
+nginx_docker_templates_dir: "{{ role_path }}/templates/{{ nginx_docker_templates_subdir }}"

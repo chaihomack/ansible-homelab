@@ -1,9 +1,8 @@
 ---
-common_packages:
+common_packages_list:
   - curl
   - vim
   - htop
   - git
   - net-tools
-
-host_has_docker: false
+  - ssh

@@ -1,19 +1,21 @@
 ---
-allowed_tcp_ports:
+security_sshd_conf_general: |
+  PermitRootLogin yes
+  PermitEmptyPasswords no
+
+security_users:
+  - username: ansible
+    sshd_conf_block: |-
+      PubkeyAuthentication yes
+      PasswordAuthentication no
+
+
+security_ufw_allowed_tcp_ports:
   - "22"
   - "80"
   - "443"
 
-allowed_udp_ports:
+security_ufw_allowed_udp_ports:
   - "68"
 
-sshd_conf_general: |
-  PermitRootLogin yes
-  PermitEmptyPasswords no
-
-
-users:
-  - username: ansible
-    sshd_conf_block: |
-      PubkeyAuthentication yes
-      PasswordAuthentication no
+security_ufw_policy: denny

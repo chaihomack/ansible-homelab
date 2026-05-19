@@ -4,12 +4,12 @@
   roles:
     - apt_cacher
     - apt_proxy
-
-    - common_server_prep
+    - common
     - security
 
     - geerlingguy.docker
 
     - zabbix_agent2
-    - DHCP_srv
+    - dhcp_srv
+
     - nginx_docker

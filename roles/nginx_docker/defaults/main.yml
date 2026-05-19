@@ -1,5 +1,9 @@
 ---
-http_listen_port: 80
-https_listen_port: 443
+nginx_docker_http_listen_port: 80
+nginx_docker_https_listen_port: 443
 
-has_web_app: false
+nginx_docker_has_web_app: false
+
+nginx_docker_container_name: "{{ nginx_docker_container_name }}"
+
+nginx_docker_templates_dir: "{{ nginx_docker_templates_dir }}"

@@ -9,24 +9,15 @@
 - name: Check if reboot is required
   ansible.builtin.stat:
     path: /var/run/reboot-required
-  register: reboot_required_file
+  register: common_reboot_required_file
 
-- name: finding out if reboot is required 
+- name: Finding out if reboot is required
   ansible.builtin.reboot:
     msg: "!!! rebooting !!!"
-  when: reboot_required_file.stat.exists
-
-- name: Cleanup Docker (prune everything)
-  community.docker.docker_prune:
-    containers: true
-    images: true
-    networks: true
-    volumes: true
-    builder_cache: true
-  when: host_has_docker
+  when: common_reboot_required_file.stat.exists
 
 - name: Install common packages
   ansible.builtin.apt:
-    name: "{{ common_packages }}"
+    name: "{{ common_packages_list }}"
     state: present
     update_cache: true

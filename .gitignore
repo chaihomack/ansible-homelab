@@ -5,3 +5,5 @@ roles/geerlingguy.docker
 roles/geerlingguy.postgresql
 *.retry
 .vault_pass
+.ansible
+.vscode

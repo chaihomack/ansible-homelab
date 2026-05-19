@@ -1,28 +1,32 @@
 ---
-- name: install zabbix release package
-  become: yes
+- name: Zabbix agent 2 install release package
+  become: true
   ansible.builtin.apt:
-    deb: "https://repo.zabbix.com/zabbix/7.4/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.4+debian{{ ansible_facts['distribution_major_version'] }}_all.deb"
+    deb: "{{ zabbix_agent_repo_url }}"
 
-- name: install zabbix agent 2
-  become: yes
+- name: Zabbix agent 2 install
+  become: true
   ansible.builtin.apt:
     update_cache: true
     name: zabbix-agent2
     state: present
 
-- name: deploy zabbix zabbix_agent2.conf
-  become: true
-  ansible.builtin.template:
-    src: zabbix_agent2.j2
-    dest: /etc/zabbix/zabbix_agent2.conf
+- name: Zabbix agent 2 deliver config
+  ansible.builtin.blockinfile:
+    path: /etc/zabbix/zabbix_agent2.conf
+    create: true
     owner: root
     group: root
-    mode: '0644'
+    mode: "0600"
+    append_newline: true
+    prepend_newline: true
+    block: "{{ lookup('template', 'zabbix_agent2.conf.j2') }}"
+  notify: Zabbix agent 2 restart
 
-- name: Restart and enable service zabbix-agent2
-  become: yes
+- name: Zabbix agent 2 Restart and enable service zabbix-agent2
+  become: true
   ansible.builtin.service:
     name: zabbix-agent2
     state: restarted
-    enabled: yes
+    enabled: true
+  changed_when: false

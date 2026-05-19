@@ -1,0 +1,42 @@
+---
+- name: SSH common install
+  ansible.builtin.apt:
+    name: ssh
+    state: present
+
+- name: SSHD create sshd_conf block with general conf
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/general.conf
+    create: true
+    owner: root
+    group: root
+    mode: "0600"
+    append_newline: true
+    prepend_newline: true
+    marker: "# {mark} GENERAL CONFIG"
+    block: "{{ security_sshd_conf_general }}"
+    validate: /usr/sbin/sshd -T -f %s
+  notify: Restart sshd
+
+- name: SSHD create sshd_conf block with conf for specific users
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/user_{{item.username}}.conf
+    owner: root
+    group: root
+    mode: "0600"
+    create: true
+    append_newline: true
+    prepend_newline: true
+    marker: "# {mark} CONFIG FOR '{{ item.username }}' USER"
+    block: |
+      Match User {{ item.username }}
+      {{ item.sshd_conf_block }}
+    validate: /usr/sbin/sshd -T -f %s
+  loop: "{{ security_users }}"
+  notify: Restart sshd
+
+- name: SSHD start and enable
+  ansible.builtin.service:
+    state: started
+    enabled: true
+    name: sshd

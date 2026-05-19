@@ -1,0 +1,51 @@
+---
+- name: Drop if app db presents
+  become: true
+  become_user: postgres
+  block:
+    - name: Collect all databases
+      community.postgresql.postgresql_info:
+        filter:
+          - "databases"
+      register: app_db_dblist
+
+    - name: Check if db is present
+      ansible.builtin.pause:
+        prompt: |-
+          WARNING: APP DATABASE {{ app_name }} IS PRESENT
+          SCRIPT FOR SETTING DB AND ITS TABLES
+          WILL NOT BE EXECUTED
+      when: "app_name in app_db_dblist.databases"
+      register: app_db_present
+
+- name: Create db and set up tables
+  become: true
+  become_user: postgres
+  when: app_db_present is skipped
+  block:
+    - name: Create DB {{ app_name }}
+      community.postgresql.postgresql_db:
+        name: "{{ app_name }}"
+        comment: main database of app {{ app_name }}
+
+    - name: Copy set_up_database.sql to host
+      become: true
+      become_user: root
+      ansible.builtin.copy:
+        src: "{{ app_db_set_up_script_path }}"
+        dest: "/tmp/script.sql"
+        owner: postgres
+        group: postgres
+        mode: "0600"
+
+    - name: Run set_up_database.sql
+      community.postgresql.postgresql_script:
+        login_db: "{{ app_name }}"
+        path: /tmp/script.sql
+
+    - name: Create user of this db and make him owner of database {{ app_name }}
+      community.postgresql.postgresql_query:
+        login_db: "{{ app_name }}"
+        query: >
+          CREATE ROLE {{ superuser_role }} WITH SUPERUSER LOGIN PASSWORD '{{ DBsuperuser_pass }}';
+          ALTER DATABASE {{ app_name }} OWNER TO {{ superuser_role }};

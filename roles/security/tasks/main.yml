@@ -1,35 +1,9 @@
 ---
-- name: Add sshd configurations
-  ansible.builtin.import_tasks: sshd_cfg.yml
+- name: Set up sshd
+  import_tasks: ufw.yml
 
-- name: Install UFW and Fail2Ban
-  ansible.builtin.apt:
-    name:
-      - ufw
-      - fail2ban
-    state: present
+- name: Set up UFW
+  import_tasks: sshd.yml
 
-- name: "Allow tcp ports: {{ allowed_tcp_ports }}"
-  community.general.ufw:
-    rule: allow
-    port: "{{ item | string }}"
-    proto: tcp
-  loop: "{{ allowed_tcp_ports }}"
-
-- name: "Allow udp ports: {{ allowed_udp_ports }}"
-  community.general.ufw:
-    rule: allow
-    port: "{{ item | string }}"
-    proto: udp
-  loop: "{{ allowed_udp_ports }}"
-
-- name: Enable UFW
-  community.general.ufw:
-    state: enabled
-    policy: deny
-
-- name: Ensure Fail2Ban is running
-  ansible.builtin.service:
-    name: fail2ban
-    state: started
-    enabled: true
+- name: Set up fail2ban
+  import_tasks: fail2ban.yml

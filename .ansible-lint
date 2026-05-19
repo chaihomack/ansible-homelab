@@ -1,0 +1,12 @@
+---
+skip_list:
+  - risky-shell-pipe
+  - role-name
+  - name[missing]
+  - name[play]
+  - fqcn
+  - var-naming[no-reserved]
+  - jinja[spacing]
+
+write_list:
+  - all
