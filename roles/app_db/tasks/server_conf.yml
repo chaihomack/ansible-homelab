@@ -1,0 +1,22 @@
+---
+- name: Configure conf.d/general.conf
+  become: true
+  become_user: root
+  block:
+    - name: Template conf.d/general.conf        # i dont like alter system method
+      ansible.builtin.template:
+        src: conf.d/general.conf
+        dest: /etc/postgresql/{{ app_db_postgresql_version }}/main/conf.d/general.conf
+        owner: postgres
+        group: postgres
+        mode: "0600"
+      notify: App_db_restart postgresql
+
+    - name: Template conf.d/general.conf
+      ansible.builtin.template:
+        src: pg_hba.conf
+        dest: /etc/postgresql/{{ app_db_postgresql_version }}/main/pg_hba.conf
+        owner: postgres
+        group: postgres
+        mode: "0600"
+      notify: App_db_restart postgresql

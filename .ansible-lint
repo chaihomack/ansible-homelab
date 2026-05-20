@@ -8,5 +8,3 @@ skip_list:
   - var-naming[no-reserved]
   - jinja[spacing]
 
-write_list:
-  - all

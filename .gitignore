@@ -1,8 +1,7 @@
 .pyenv
 .git
 secrets
-roles/geerlingguy.docker
-roles/geerlingguy.postgresql
+roles/geerlingguy*
 *.retry
 .vault_pass
 .ansible

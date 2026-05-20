@@ -1,3 +1,15 @@
 ---
+app_db_main_db: "{{ app_name }}"
+
 app_db_set_up_script_path: "{{ role_path }}/files/set_up_database.sql"
 app_db_superuser_role: app_admins
+app_db_superuser_pass: "{{ app_db_superuser_pass }}"
+
+# postgresql.conf
+app_db_postgresql_version: 17
+app_db_listen_addresses: "192.168.56.115"
+app_db_port: 5432
+app_db_max_connections: 69
+
+# pg_hba.conf
+app_db_allowed_ip_cidr: "{{ hostvars[groups['gateway'][0]]['ansible_host'] }}/{{ hostvars[groups['gateway'][0]]['CIDR'] }}"

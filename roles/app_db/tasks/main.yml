@@ -1,4 +1,7 @@
 ---
+
+- include_tasks: server_conf.yml
+
 - name: Drop if app db presents
   become: true
   become_user: postgres
@@ -12,10 +15,10 @@
     - name: Check if db is present
       ansible.builtin.pause:
         prompt: |-
-          WARNING: APP DATABASE {{ app_name }} IS PRESENT
+          WARNING: APP DATABASE {{ app_db_main_db }} IS PRESENT
           SCRIPT FOR SETTING DB AND ITS TABLES
           WILL NOT BE EXECUTED
-      when: "app_name in app_db_dblist.databases"
+      when: "app_db_main_db in app_db_dblist.databases"
       register: app_db_present
 
 - name: Create db and set up tables
@@ -23,10 +26,10 @@
   become_user: postgres
   when: app_db_present is skipped
   block:
-    - name: Create DB {{ app_name }}
+    - name: Create DB {{ app_db_main_db }}
       community.postgresql.postgresql_db:
-        name: "{{ app_name }}"
-        comment: main database of app {{ app_name }}
+        name: "{{ app_db_main_db }}"
+        comment: main database of app {{ app_db_main_db }}
 
     - name: Copy set_up_database.sql to host
       become: true
@@ -40,12 +43,12 @@
 
     - name: Run set_up_database.sql
       community.postgresql.postgresql_script:
-        login_db: "{{ app_name }}"
+        login_db: "{{ app_db_main_db }}"
         path: /tmp/script.sql
 
-    - name: Create user of this db and make him owner of database {{ app_name }}
+    - name: Create user of this db and make him owner of database {{ app_db_main_db }}
       community.postgresql.postgresql_query:
-        login_db: "{{ app_name }}"
-        query: >
-          CREATE ROLE {{ superuser_role }} WITH SUPERUSER LOGIN PASSWORD '{{ DBsuperuser_pass }}';
-          ALTER DATABASE {{ app_name }} OWNER TO {{ superuser_role }};
+        login_db: "{{ app_db_main_db }}"
+        query: >-
+          CREATE ROLE {{ app_db_superuser_role }} WITH SUPERUSER LOGIN PASSWORD '{{ app_db_superuser_pass }}';
+          ALTER DATABASE {{ app_db_main_db }} OWNER TO {{ app_db_superuser_role }};
