@@ -3,6 +3,5 @@
 secrets
 roles/geerlingguy*
 *.retry
-.vault_pass
 .ansible
 .vscode
