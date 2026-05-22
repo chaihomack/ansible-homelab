@@ -1,3 +1,16 @@
 ---
-app_name: "teashop"
-ansible_become_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/secrets/pass4sudo') }}"
+app_name: teashop
+
+# custom
+ansible_user_name: ansible
+ansible_user_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/' ~ 'secrets/ansible_user_password') }}"
+ansible_user_public_key_file: "{{ lookup('env', 'PWD') ~ '/' ~ 'secrets/ansible_ssh.pub' }}"
+ansible_user_private_key_file: "{{ lookup('env', 'PWD') ~ '/' ~ 'secrets/ansible_ssh' }}"
+# native
+ansible_become_password: '{{ ansible_user_password }}'
+ansible_user: '{{ ansible_user_name }}'
+private_key_file: "{{ lookup('env', 'PWD') ~ '/' ~ 'secrets/ansible_ssh' }}"
+
+# admin
+admin_name: ivan
+admin_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/' ~ 'secrets/admin_password') }}"

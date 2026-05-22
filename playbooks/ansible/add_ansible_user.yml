@@ -1,0 +1,16 @@
+---
+- name: Create ansible user on remote host
+  hosts: test
+  vars:
+    ansible_user: '{{ admin_name }}'
+    ansible_ssh_password: '{{ admin_password }}'
+    ansible_become_password: '{{ admin_password }}'
+  become: true
+  tasks:
+    - include_role:
+        name: user
+        tasks_from: add_user
+      vars:
+        user_name: "{{ ansible_user_name }}"
+        user_password: "{{ ansible_user_password }}"
+        user_public_key_path: "{{ ansible_user_public_key }}"

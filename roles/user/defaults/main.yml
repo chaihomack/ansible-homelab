@@ -1,0 +1,6 @@
+---
+
+# user
+user_name: '{{ user_name }}'
+user_password: '{{ user_password }}'
+user_public_key_path: '{{ user_public_key_path }}'

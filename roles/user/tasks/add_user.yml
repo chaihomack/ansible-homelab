@@ -1,0 +1,47 @@
+---
+
+- name: Check if user already exists
+  ansible.builtin.user:
+    name: '{{ user_name }}'
+  check_mode: true
+  changed_when: false
+  register: user_already_exists
+
+- name: Create user {{ user_name }}
+  when: user_already_exists.state is not defined # that means that user does not exists
+  block:
+    - name: Create phc of password
+      command:
+        cmd: 'mkpasswd --method=sha512crypt --stdin'
+        stdin: '{{ ansible_user_password }}'
+      delegate_to: localhost
+      changed_when: false
+      register: user_phc
+
+    - name: Create user {{ user_name }}
+      ansible.builtin.user:
+        name: '{{ user_name }}'
+        create_home: true
+        home: /home/{{ user_name }}
+        append: true
+        groups: sudo
+        password: '{{ user_phc.stdout }}'
+      notify: Restart sshd
+
+    - name: Create .ssh dir /home/{{ user_name }}/.ssh
+      ansible.builtin.file:
+        path: /home/{{ user_name }}/.ssh
+        state: directory
+        group: '{{ user_name }}'
+        owner: '{{ user_name }}'
+        mode: '0700'
+      notify: Restart sshd
+
+    - name: Copying public key to /home/{{ user_name }}/.ssh/authorized_keys
+      ansible.builtin.copy:
+        src: '{{ user_public_key_path }}'
+        dest: /home/{{ user_name }}/.ssh/authorized_keys
+        group: '{{ user_name }}'
+        owner: '{{ user_name }}'
+        mode: '0600'
+      notify: Restart sshd

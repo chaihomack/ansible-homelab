@@ -18,4 +18,4 @@ security_ufw_allowed_tcp_ports:
 security_ufw_allowed_udp_ports:
   - "68"
 
-security_ufw_policy: denny
+security_ufw_policy: deny
