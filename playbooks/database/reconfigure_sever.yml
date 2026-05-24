@@ -1,6 +1,6 @@
 ---
 - name: Reconfigure postgresql.conf and pg_hba.conf
-  hosts: database_servers
+  hosts: database_server
   tasks:
     - include_role:
         name: app_db

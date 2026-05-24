@@ -1,0 +1,7 @@
+---
+- name: Deploy Zabbix Agent 2
+  hosts: hosts_with_zabbix_agents
+  vars:
+    zabbix_agent2_monitoring_server_ip: '{{ monitoring_server_ip }}'
+  roles:
+    - zabbix_agent2

@@ -14,3 +14,6 @@ private_key_file: "{{ lookup('env', 'PWD') ~ '/' ~ 'secrets/ansible_ssh' }}"
 # admin
 admin_name: ivan
 admin_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/' ~ 'secrets/admin_password') }}"
+
+# monitoring
+monitoring_server_ip: "{{ hostvars['monitoring.tea']['ansible_host'] }}"

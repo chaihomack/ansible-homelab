@@ -1,3 +1,5 @@
 ---
 zabbix_agent2_repo_url: https://repo.zabbix.com/zabbix/7.4/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.4+debian{{
   ansible_facts['distribution_major_version']}}_all.deb
+
+zabbix_agent2_monitoring_server_ip: "{{ zabbix_agent2_monitoring_server_ip }}"
