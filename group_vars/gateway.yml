@@ -1,7 +1,5 @@
 ---
 
-host_has_docker: true
-
 allowed_tcp_ports:
   - "22"
   - "80"
@@ -14,7 +12,7 @@ allowed_udp_ports:
 
 # nginx docker vars
 nginx_docker_http_listen_port: 80
-nginx_docker_container_name: nginx_rev_proxy
+nginx_docker_container_name: nginx_load_balancer
 nginx_docker_templates_subdir: gateway
 
 # dhcp server vars

@@ -16,4 +16,4 @@ admin_name: ivan
 admin_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/' ~ 'secrets/admin_password') }}"
 
 # monitoring
-monitoring_server_ip: "{{ hostvars['monitoring.tea']['ansible_host'] }}"
+zabbix_agent2_monitoring_server_ip: "{{ hostvars['monitoring.tea']['ansible_host'] }}"

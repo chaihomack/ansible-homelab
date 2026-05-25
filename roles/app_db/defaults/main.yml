@@ -1,5 +1,5 @@
 ---
-app_db_main_db: "{{ app_name }}"
+app_db_main_db: "{{ app_db_main_db }}"
 
 app_db_set_up_script_path: "{{ role_path }}/files/set_up_database.sql"
 app_db_superuser_role: app_admins

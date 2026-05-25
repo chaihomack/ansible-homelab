@@ -14,32 +14,22 @@
         state: absent
       changed_when: false
 
-    - name: Dreate dir structure
+    - name: Create dir structure
       ansible.builtin.file:
         path: "{{ nginx_docker_cfg_base_dir }}/{{ item.path }}"
         state: directory
         mode: "{{ item.mode }}"
-      with_community.general.filetree: "{{ nginx_docker_templates_dir }}"
+      with_community.general.filetree: "{{ nginx_docker_templates_subdir }}"
       when: item.state == 'directory'
       changed_when: false
 
     - name: Deliver files with everything from templates/nginx
       ansible.builtin.template:
         src: "{{ item.src }}"
-        dest: "{{ nginx_docker_nginx_cfg }}/{{ item.path | splitext | first }}" # removes last .ext
+        dest: "{{ nginx_docker_templates_subdir }}/{{ item.path | splitext | first }}" # removes last .ext
         mode: "{{ item.mode }}"
-      with_community.general.filetree: "{{ nginx_docker_templates_dir }}/nginx"
+      with_community.general.filetree: "{{ nginx_docker_templates_subdir }}"
       when: item.state == 'file'
-      changed_when: false
-
-    - name: Copying web_app to host if exists
-      ansible.builtin.copy:
-        src: "{{ nginx_docker_templates_dir }}/web_app"
-        dest: "{{ nginx_docker_cfg_base_dir }}"
-        owner: ansible
-        group: ansible
-        mode: "0644"
-      when: nginx_docker_has_web_app
       changed_when: false
 
 - ansible.builtin.find:

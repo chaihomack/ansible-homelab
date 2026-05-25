@@ -11,7 +11,7 @@
     path: "{{ nginx_docker_tmp_dir.path }}/{{ item.path }}"
     state: directory
     mode: "{{ item.mode }}"
-  with_community.general.filetree: "{{ nginx_docker_templates_dir }}"
+  with_community.general.filetree: "{{ nginx_docker_templates_subdir }}"
   when: item.state == 'directory'
   changed_when: false
 
@@ -20,7 +20,7 @@
     src: "{{ item.src }}"
     dest: "{{ nginx_docker_tmp_dir.path }}/{{ item.path | splitext | first }}" # also removes .j2
     mode: "{{ item.mode }}"
-  with_community.general.filetree: "{{ nginx_docker_templates_dir }}"
+  with_community.general.filetree: "{{ nginx_docker_templates_subdir }}"
   when: item.state == 'file'
   changed_when: false
 
@@ -28,7 +28,7 @@
   ansible.builtin.command:
     cmd: >
       docker run --rm -t
-      -v "{{ nginx_docker_tmp_dir.path }}/nginx/conf.d/:/etc/nginx/conf.d/:ro"
-      -v "{{ nginx_docker_tmp_dir.path }}/nginx/sites-enabled/:/etc/nginx/sites-enabled/:ro"
+      -v "{{ nginx_docker_tmp_dir.path }}/conf.d/:/etc/nginx/conf.d/:ro"
+      -v "{{ nginx_docker_tmp_dir.path }}/sites-enabled/:/etc/nginx/sites-enabled/:ro"
       nginx:latest nginx -t
   changed_when: false

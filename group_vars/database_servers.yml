@@ -1,2 +1,4 @@
 ---
 app_db_superuser_pass: "{{ lookup('file', lookup('env', 'PWD') ~ '/secrets/DBsuperuser_pass') }}"
+
+app_db_main_db: "{{ app_name }}"

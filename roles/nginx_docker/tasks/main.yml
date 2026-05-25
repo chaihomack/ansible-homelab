@@ -11,9 +11,8 @@
     state: started
     restart_policy: always
     volumes:
-      - "{{ nginx_docker_nginx_cfg }}/conf.d:/etc/nginx/conf.d:ro"
-      - "{{ nginx_docker_nginx_cfg }}/sites-enabled:/etc/nginx/sites-enabled:ro"
-      - "{{ (nginx_docker_web_app ~ ':/var/www/html:ro') if nginx_docker_has_web_app == true else ('/dev/null:/dev/null:ro') }}"
+      - "{{ nginx_docker_templates_subdir }}/conf.d:/etc/nginx/conf.d:ro"
+      - "{{ nginx_docker_templates_subdir }}/sites-enabled:/etc/nginx/sites-enabled:ro"
     published_ports:
       - "{{ nginx_docker_http_listen_port }}:80"
   notify: Restart nginx container
