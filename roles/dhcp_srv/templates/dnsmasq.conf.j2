@@ -4,5 +4,5 @@ dhcp-range={{ dhcp_srv_ip_range_start }},{{ dhcp_srv_ip_range_end }},{{ dhcp_srv
 dhcp-authoritative
 log-queries
 log-dhcp
-dhcp-option=option:router,{{ dhcp_srv_ansible_host }}
+dhcp-option=option:router,{{ dhcp_srv_gateway }}
 dhcp-option=option:dns-server,{{ dhcp_srv_dns_servers }}

@@ -1,12 +1,12 @@
 ---
 
-allowed_tcp_ports:
+security_ufw_allowed_tcp_ports:
   - "22"
   - "80"
   - "443"
   - "3142"
 
-allowed_udp_ports:
+security_ufw_allowed_udp_ports:
   - "68"
   - "67"
 
@@ -16,7 +16,7 @@ nginx_docker_container_name: nginx_load_balancer
 nginx_docker_templates_subdir: gateway
 
 # dhcp server vars
-dhcp_srv_network_interface: "enp0s3"
+dhcp_srv_network_interface: "ens19"
 dhcp_srv_ip_range_start: "192.168.56.100"
 dhcp_srv_ip_range_end: "192.168.56.200"
 dhcp_srv_ip_rent_hours: 24h

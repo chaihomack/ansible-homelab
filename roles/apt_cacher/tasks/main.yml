@@ -1,7 +1,6 @@
 ---
 - name: Install debconf-utils
   ansible.builtin.apt:
-    update_cache: true
     name: debconf-utils
     state: present
 
@@ -15,11 +14,11 @@
 
 # WARNING: data that has been installed via HTTPS will not be cached (obviously)
 # without HTTP tunnel, HTTPS will fail
-- name: "(debconf) Allow http tunnels: {{ allow_http_tunnels }}"
+- name: "(debconf) Allow http tunnels: {{ apt_cacher_allow_http_tunnels }}"
   ansible.builtin.debconf:
     name: apt-cacher-ng
     question: apt-cacher-ng/tunnelenable
-    value: "{{ allow_http_tunnels }}"
+    value: "{{ apt_cacher_allow_http_tunnels }}"
     vtype: boolean
 
 - name: Install apt-cacher-ng

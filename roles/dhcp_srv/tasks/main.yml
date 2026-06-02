@@ -3,7 +3,6 @@
   ansible.builtin.apt:
     name: dnsmasq
     state: present
-    update_cache: true
 
 - name: Template config to host
   ansible.builtin.template:

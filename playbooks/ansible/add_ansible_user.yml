@@ -1,6 +1,6 @@
 ---
 - name: Create ansible user on remote host
-  hosts: all
+  hosts: gateway
   vars:
     ansible_user: '{{ admin_name }}'
     ansible_ssh_password: '{{ admin_password }}'

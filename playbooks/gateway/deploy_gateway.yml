@@ -1,6 +1,7 @@
 ---
 - name: Deploy gateway
   hosts: gateway
+  become: true
   roles:
     - apt_cacher
     - apt_proxy
@@ -12,4 +13,3 @@
     - zabbix_agent2
     - dhcp_srv
 
-    - nginx_docker

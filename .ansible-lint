@@ -7,4 +7,4 @@ skip_list:
   - fqcn
   - var-naming[no-reserved]
   - jinja[spacing]
-
+  - name[template]

@@ -2,7 +2,7 @@
 - name: Zabbix agent 2 install release package
   become: true
   ansible.builtin.apt:
-    deb: "{{ zabbix_agent_repo_url }}"
+    deb: "{{ zabbix_agent2_repo_url }}"
 
 - name: Zabbix agent 2 install
   become: true
@@ -17,7 +17,7 @@
     create: true
     owner: root
     group: root
-    mode: "0600"
+    mode: "0644"
     append_newline: true
     prepend_newline: true
     block: "{{ lookup('template', 'zabbix_agent2.conf.j2') }}"

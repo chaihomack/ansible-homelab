@@ -4,19 +4,19 @@
     name: ufw
     state: present
 
-- name: "UFW Allow tcp ports: {{ security_allowed_tcp_ports }}"
+- name: "UFW Allow tcp ports: {{ security_ufw_allowed_tcp_ports }}"
   community.general.ufw:
     rule: allow
     port: "{{ item | string }}"
     proto: tcp
-  loop: "{{ security_allowed_tcp_ports }}"
+  loop: "{{ security_ufw_allowed_tcp_ports }}"
 
-- name: "UFW Allow udp ports: {{ security_allowed_udp_ports }}"
+- name: "UFW Allow udp ports: {{ security_ufw_allowed_udp_ports }}"
   community.general.ufw:
     rule: allow
     port: "{{ item | string }}"
     proto: udp
-  loop: "{{ security_allowed_udp_ports }}"
+  loop: "{{ security_ufw_allowed_udp_ports }}"
 
 - name: UFW Set policy to {{ security_ufw_policy }}
   community.general.ufw:
