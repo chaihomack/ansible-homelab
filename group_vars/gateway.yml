@@ -4,7 +4,8 @@ security_ufw_allowed_tcp_ports:
   - "22"
   - "80"
   - "443"
-  - "3142"
+  - "3142" # apt cacher
+  - "3141" # devpi server
 
 security_ufw_allowed_udp_ports:
   - "68"
@@ -26,3 +27,6 @@ dhcp_srv_dns_servers: "{{ ansible_host }}"
 
 # apt cacher vars
 apt_cacher_allow_http_tunnels: true
+
+# devpi_server vars
+devpi_server_password: "{{ lookup('file', lookup('env', 'PWD') ~ '/' ~ 'secrets/devpi_server_password') }}"

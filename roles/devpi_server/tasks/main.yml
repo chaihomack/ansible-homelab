@@ -1,0 +1,10 @@
+---
+- name: Run devpi under docker
+  community.docker.docker_container:
+    name: devpi_server
+    image: 'jonasal/devpi-server:latest'
+    state: started
+    ports:
+      - "3141:3141"
+    env:
+      DEVPI_PASSWORD: "{{ devpi_server_password }}"

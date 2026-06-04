@@ -3,12 +3,15 @@
   hosts: gateway
   become: true
   roles:
-    - apt_cacher
-    - apt_proxy
     - common
     - security
 
+    - apt_cacher
+    - apt_proxy
+
     - geerlingguy.docker
+
+    - devpi_server
 
     - zabbix_agent2
     - dhcp_srv
