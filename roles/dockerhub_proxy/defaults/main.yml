@@ -1,0 +1,3 @@
+---
+
+dockerhub_proxy_ip: "{{ dockerhub_proxy_ip }}"

@@ -1,0 +1,15 @@
+---
+- name: Configure host to use dockerhub proxy server
+  ansible.builtin.blockinfile:
+    path: /etc/docker/daemon.json
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
+    append_newline: true
+    prepend_newline: true
+    marker: "# {mark} ANSIBLE MANAGED"
+    block: |
+      {
+        "registry-mirrors": ["http://{{ dockerhub_proxy_ip }}:5000"]
+      }

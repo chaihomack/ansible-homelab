@@ -1,13 +1,17 @@
 ---
 - name: Install common packets, postgresql, set up security
   hosts: database_servers
-  roles:
-    - apt_proxy
-    - common
-    - security
+  tasks:
+    - include_role:
+        name: '{{ item }}'
+      loop:
+        - apt_proxy
+        - common
+        - security
+        - geerlingguy.postgresql
+        - zabbix_agent2
+        - app_db
 
-    - geerlingguy.postgresql
-
-    - zabbix_agent2
-
-    - app_db
+    - include_role:
+        name: dockerhub_proxy
+        tasks_from: client

@@ -1,0 +1,11 @@
+---
+- name: Run dockerhub proxy server
+  community.docker.docker_container:
+    name: dockerhub_proxy
+    image: 'rergistry:2'
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "5000:5000"
+    env:
+      REGISTRY_PROXY_REMOTEURL: "https://registry-1.docker.io"

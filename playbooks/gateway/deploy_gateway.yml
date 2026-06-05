@@ -2,17 +2,19 @@
 - name: Deploy gateway
   hosts: gateway
   become: true
-  roles:
-    - common
-    - security
+  tasks:
+    - include_role:
+        name: '{{ item }}'
+      loop:
+      - common
+      - security
+      - apt_cacher
+      - apt_proxy
+      - geerlingguy.docker
+      - devpi_server
+      - zabbix_agent2
+      - dhcp_srv
 
-    - apt_cacher
-    - apt_proxy
-
-    - geerlingguy.docker
-
-    - devpi_server
-
-    - zabbix_agent2
-    - dhcp_srv
-
+    - include_role:
+        name: dockerhub_proxy
+        tasks_from: server

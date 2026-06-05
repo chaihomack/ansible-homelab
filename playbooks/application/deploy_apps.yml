@@ -1,13 +1,16 @@
 ---
 - name: Deploy_apps
   hosts: main_app_servers
-  roles:
-    - apt_proxy
-    - common
-    - security
+  tasks:
+    - include_role:
+        name: '{{ item }}'
+      loop:
+        - apt_proxy
+        - common
+        - security
+        - geerlingguy.docker
+        - zabbix_agent2
 
-    - geerlingguy.docker
-
-    - zabbix_agent2
-
-    - nginx_docker
+    - include_role:
+        name: dockerhub_proxy
+        tasks_from: client
