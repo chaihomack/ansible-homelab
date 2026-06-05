@@ -51,4 +51,7 @@ remember to use devpi server for installing python modules via pip.
 example: 
 ```shell
 pip install -i http://192.168.56.1:3141/root/pypi --trusted-host 192.168.56.1 simplejson
+
+remember about apt-cacher-ng on gateway
+remember about docker registry that works like proxy to dockerhub on gateway 
 ```
