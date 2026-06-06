@@ -1,0 +1,32 @@
+---
+- name: Create dir for gitlab data
+  ansible.builtin.file:
+    path: "{{ gitlab_docker_home_dir }}"
+    state: directory
+    owner: root
+    group: docker
+    mode: '0770'
+
+- name: Pull gitlab docker image
+  community.docker.docker_image:
+    name: gitlab/gitlab-ce
+    source: pull
+
+- name: Run gitlab docker container
+  community.docker.docker_container:
+    name: gitlab
+    image: gitlab/gitlab-ce
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - '{{ gitlab_docker_home_dir }}/config:/etc/gitlab'
+      - '{{ gitlab_docker_home_dir }}/logs:/var/log/gitlab'
+      - '{{ gitlab_docker_home_dir }}/data:/var/opt/gitlab'
+    env:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url {{ ansible_host }}
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222

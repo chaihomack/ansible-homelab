@@ -1,0 +1,4 @@
+---
+
+# gitlab data dir on host
+gitlab_docker_home_dir: "/srv/gitlab"

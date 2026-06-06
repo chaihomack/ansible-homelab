@@ -23,7 +23,7 @@ dhcp_srv_ip_range_end: "192.168.56.200"
 dhcp_srv_ip_rent_hours: 24h
 dhcp_srv_netmask: "255.255.255.0"
 dhcp_srv_gateway: "{{ ansible_host }}"
-dhcp_srv_dns_servers: "{{ ansible_host }}"
+dhcp_srv_dns_servers: "1.1.1.1,8.8.8.8"
 
 # apt cacher vars
 apt_cacher_allow_http_tunnels: true

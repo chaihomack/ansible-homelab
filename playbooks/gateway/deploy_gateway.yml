@@ -4,6 +4,9 @@
   become: true
   tasks:
     - include_role:
+        name: dockerhub_proxy
+        tasks_from: server
+    - include_role:
         name: '{{ item }}'
       loop:
       - common
@@ -14,7 +17,3 @@
       - devpi_server
       - zabbix_agent2
       - dhcp_srv
-
-    - include_role:
-        name: dockerhub_proxy
-        tasks_from: server

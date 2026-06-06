@@ -4,6 +4,7 @@
     name: devpi_server
     image: 'jonasal/devpi-server:latest'
     state: started
+    restart_policy: unless-stopped
     ports:
       - "3141:3141"
     env:

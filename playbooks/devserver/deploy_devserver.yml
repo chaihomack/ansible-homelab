@@ -1,0 +1,19 @@
+---
+- name: Deploy devserver
+  hosts: devserver
+  become: true
+  tasks:
+    - include_role:
+        name: '{{ item }}'
+      loop:
+        - apt_proxy
+        - common
+        - security
+        - geerlingguy.docker
+
+    - include_role:
+        name: dockerhub_proxy
+        tasks_from: client
+
+    - include_role:
+        name: gitlab_docker

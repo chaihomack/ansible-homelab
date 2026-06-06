@@ -1,5 +1,6 @@
 ---
 common_packages_list:
+  - sudo
   - curl
   - vim
   - htop
